@@ -1,0 +1,105 @@
+/* Container for status and controls, horizontal layout */
+.statusControlsRow {
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+	justify-content: center;
+	gap: 2rem;
+	width: 100%;
+	margin-bottom: 2rem;
+}
+/* Controls styles */
+.controls {
+	display: flex;
+	flex-direction: row;
+	justify-content: center;
+	align-items: center;
+	gap: 1rem;
+	margin-top: 0;
+	height: 48px;
+}
+
+.resetButton {
+	background: #ff9800;
+	color: #fff;
+	border: none;
+	border-radius: 6px;
+	padding: 0.5rem 1.2rem;
+	font-size: 1rem;
+	font-weight: bold;
+	cursor: pointer;
+	box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+	transition: background 0.2s, color 0.2s;
+}
+.resetButton:hover {
+	background: #f57c00;
+	color: #ffe0b2;
+}
+/* Page container styles */
+.pageContainer {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	min-height: 100vh;
+	background: #f0f4f8;
+}
+
+.title {
+	color: #222;
+	font-size: 2.2rem;
+	margin-bottom: 2rem;
+	letter-spacing: 2px;
+}
+
+/* Board styles */
+.board {
+	display: grid;
+	grid-template-columns: repeat(3, 1fr);
+	width: 208px;
+}
+
+/* Cell styles */
+.cell {
+	width: 60px;
+	height: 60px;
+	font-size: 2rem;
+	font-weight: bold;
+	border: 2px solid #333;
+	background: #fafafa;
+	cursor: pointer;
+	color: #333;
+	transition: background 0.2s;
+	margin: 4px;
+}
+.cell:disabled {
+	cursor: default;
+}
+.x {
+	color: #1976d2;
+}
+.o {
+	color: #d32f2f;
+}
+
+/* Status message styling */
+.status {
+	color: #fff;
+	padding: 0.5rem 1rem;
+	border-radius: 6px;
+	font-size: 1rem;
+	margin-bottom: 0;
+	text-align: center;
+	box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+	background: #333;
+	height: 48px;
+	display: flex;
+	align-items: center;
+}
+
+.xStatus {
+	background: #1976d2 !important;
+}
+.oStatus {
+	background: #d32f2f !important;
+}
