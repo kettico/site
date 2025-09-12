@@ -32,7 +32,7 @@ export default function RoomPage() {
     }
   }
 
-  async function PostNewMessage(msg: String){
+  async function PostNewMessage(msg: string){
     try{
       const res = await fetch('/api/chat/rooms/' + roomID, {
         method: 'POST',
