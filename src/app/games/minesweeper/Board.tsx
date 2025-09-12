@@ -3,15 +3,24 @@ import styles from "./Minesweeper.module.css";
 import {Cell, countNewReveals, floodFill, generateBoard } from "./util";
 import CellComponent from "./Cell";
 
+/*
 interface BoardProps {
   rows: number;
   cols: number;
   score: number;
   setScore: React.Dispatch<React.SetStateAction<number>>;
 }
+*/
 
-export default function Board({ rows, cols, score, setScore}: BoardProps) {
-  const [cells, setCells] = useState(() => generateBoard(rows, cols, 10)); //
+interface BoardProps {
+  cells: Cell[][];
+  onScoreChange: (newScore: number) => void;
+  setCells: React.Dispatch<React.SetStateAction<Cell[][]>>;
+}
+
+
+
+export default function Board({ cells,setCells, onScoreChange}: BoardProps) {
 
   const onClick = (row: number, col: number) => {
     const cell = cells[row][col];
@@ -27,14 +36,14 @@ export default function Board({ rows, cols, score, setScore}: BoardProps) {
     } else if (cell.value === 0) {
       newCells = floodFill(cells, row, col);
       const revealedCount = countNewReveals(cells, newCells);
-      setScore(prev => prev + revealedCount);
+      onScoreChange(revealedCount);
     } else {
       newCells = cells.map((r, rIdx) =>
         r.map((c, cIdx) =>
           rIdx === row && cIdx === col ? { ...c, state: "revealed" } : c
         )
       );
-      setScore(prev => prev + 1);
+      onScoreChange(1);
     }
     setCells(newCells);
   };
