@@ -5,7 +5,7 @@ import styles from "./chat.module.css";
 import {useEffect, useState} from "react";
 
 export default function ChatPage() {
-    const [rooms, setRooms] = useState<Array<{name: string, roomID: number}>>([]);
+    const [rooms, setRooms] = useState<Array<{ name: string; id: number }>>([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState('');
 
@@ -34,7 +34,7 @@ export default function ChatPage() {
             {loading ? <p>Loading rooms...</p> : (
                 <div className={styles.cardContainer}>
                     {rooms.map(room => (
-                    <RoomCard key={room.roomID} name={room.name} roomID={room.roomID} />
+                    <RoomCard key={room.id} name={room.name} roomID={room.id} />
                     ))}
                 </div>
             )}

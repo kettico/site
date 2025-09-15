@@ -1,32 +1,47 @@
-import { NextResponse } from 'next/server';
+import { NextRequest, NextResponse } from 'next/server';
+import { prisma } from '@/lib/prisma'
 
 
-let rooms = [
-  { name: "General Chat", roomID: 1 },
-  { name: "Sports Talk", roomID: 2 },
-  { name: "Tech Discussions", roomID: 3 },
-];
-
-
-export async function GET() {
-  return NextResponse.json({ rooms});
-}
-
-export async function POST(request: Request) {
-  const body = await request.json();
-  const { roomName } = body;
-
-  if (!roomName || typeof roomName !== 'string') {
-    return NextResponse.json({ error: 'Invalid room name' }, { status: 400 });
+// GET: List of all rooms
+export async function GET(request: NextRequest) {
+  try {
+    const rooms = await prisma.room.findMany({
+      include: {
+        messages: {
+          select: {
+            id: true,
+            text: true,
+            createdAt: true,
+          },
+          orderBy: { createdAt: 'desc'},
+          take: 1, // Latest Message Preview
+        },
+      },
+    });
+    return NextResponse.json({rooms});
+  } catch (error) {
+    console.error('Error fetching rooms: ', error);
+    return NextResponse.json({error: 'Failed to fetch rooms'}, {status: 500});
   }
-
-  const newRoom = {
-    name: roomName,
-    roomID: rooms.length + 1, // simple auto-increment
-  };
-
-  rooms.push(newRoom);
-
-  return NextResponse.json({ success: true, room: newRoom });
 }
 
+// POST: Create a new chat room
+export async function POST(request: NextRequest) {
+  try {
+    const body = await request.json();
+    const { name } = body;
+
+    if (!name || typeof name != 'string') {
+      return NextResponse.json({error: 'Invalid room name'}, {status: 400});
+    }
+
+    const newRoom = await prisma.room.create({
+      data: { name },
+    });
+
+    return NextResponse.json({success: true, room: newRoom});
+  } catch (error) {
+    console.error('Error creating room: ', error);
+    return NextResponse.json({error: 'Failed to create room'}, {status: 500});
+  }
+}

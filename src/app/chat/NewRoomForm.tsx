@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 import styles from './chat.module.css';
 
 export default function NewRoomForm({ onRoomCreated }: { onRoomCreated?: () => void }) {
-    const [roomName, setRoomName] = useState('');
+    const [name, setName] = useState('');
     const [error, setError] = useState('');
 
     async function handleSubmit(e: React.FormEvent) {
@@ -14,7 +14,7 @@ export default function NewRoomForm({ onRoomCreated }: { onRoomCreated?: () => v
             const res = await fetch('/api/chat/rooms', {
                 method: 'POST',
                 headers: {'Content-Type': 'application/json'},
-                body: JSON.stringify({ roomName }),
+                body: JSON.stringify({ name }),
             });
 
             if (!res.ok){
@@ -23,7 +23,7 @@ export default function NewRoomForm({ onRoomCreated }: { onRoomCreated?: () => v
                 return;
             }
 
-            setRoomName('');
+            setName('');
             if (onRoomCreated) onRoomCreated();
         } catch (err) {
             setError('An error occurred while creating the room');
@@ -35,8 +35,8 @@ export default function NewRoomForm({ onRoomCreated }: { onRoomCreated?: () => v
       <form onSubmit={handleSubmit} className={styles.newRoomForm}>
         <input
           type="text"
-          value={roomName}
-          onChange={(e) => setRoomName(e.target.value)}
+          value={name}
+          onChange={(e) => setName(e.target.value)}
           placeholder="New Room Name"
           required
           className={styles.newRoomInput}
